@@ -2,6 +2,9 @@
 
 namespace Tommus\Sprout;
 
+use Illuminate\Console\Command;
+use Illuminate\Container\Container;
+
 class Sprout
 {
     public function __invoke()
@@ -13,11 +16,42 @@ class Sprout
         // this looks good:
         // return $class->setContainer($this->laravel)->setCommand($this);
         // from SeedCommand line 78
+        $this->command->getOutput()->writeln(sprintf("<info>Running</info> %s", $this->description()));
         $this->run();
+        $this->command->getOutput()->writeln(sprintf("<info>Finished</info> %s", $this->description()));
 
-        return [
-            'type' => 'info',
-            'body' => 'Sprout finished.'
-        ];
+    }
+
+    public function setContainer(Container $container)
+    {
+        $this->container = $container;
+
+        return $this;
+    }
+
+    public function setCommand(Command $command)
+    {
+        $this->command = $command;
+
+        return $this;
+    }
+
+    /**
+     * Returns the description of the Sprout.
+     *
+     * @return string
+     */
+    protected function description()
+    {
+        return $this->description ?? get_class($this);
+    }
+
+    protected function call(string $class)
+    {
+        $sprout = $this->container->make($class);
+
+        $sprout->setContainer($this->container)->setCommand($this->command);
+
+        $sprout->__invoke();
     }
 }

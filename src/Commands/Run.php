@@ -41,9 +41,11 @@ class Run extends Command
 
         $sprout = $this->choice('Select a sprout to run', $sprouts);
 
-        $message = (new $sprout)();
+        $sprout = $this->laravel->make($sprout);
 
-        $this->{$message['type']}($message['body']);
+        $sprout->setContainer($this->laravel)->setCommand($this);
+
+        $message = $sprout();
     }
 
     /**
