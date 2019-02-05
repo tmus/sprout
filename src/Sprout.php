@@ -7,33 +7,18 @@ use Illuminate\Container\Container;
 
 class Sprout
 {
+    /**
+     * Invokes the class.
+     *
+     * @return mixed
+     */
     public function __invoke()
     {
-        // might have to call another artisan command here, so that each playbook
-        // can return a message and abort if necessary. Hmm.........
-        // https://laravel.com/docs/5.7/artisan#calling-commands-from-other-commands
+        $this->beforeRun();
 
-        // this looks good:
-        // return $class->setContainer($this->laravel)->setCommand($this);
-        // from SeedCommand line 78
-        $this->command->getOutput()->writeln(sprintf("<info>Running</info> %s", $this->description()));
         $this->run();
-        $this->command->getOutput()->writeln(sprintf("<info>Finished</info> %s", $this->description()));
 
-    }
-
-    public function setContainer(Container $container)
-    {
-        $this->container = $container;
-
-        return $this;
-    }
-
-    public function setCommand(Command $command)
-    {
-        $this->command = $command;
-
-        return $this;
+        $this->afterRun();
     }
 
     /**
@@ -41,11 +26,18 @@ class Sprout
      *
      * @return string
      */
-    protected function description()
+    public function description()
     {
         return $this->description ?? get_class($this);
     }
 
+    /**
+     * Calls another Sprout.
+     *
+     * @param string $class The Sprout to instantiate.
+     *
+     * @return void
+     */
     protected function call(string $class)
     {
         $sprout = $this->container->make($class);
@@ -53,5 +45,61 @@ class Sprout
         $sprout->setContainer($this->container)->setCommand($this->command);
 
         $sprout->__invoke();
+    }
+
+    /**
+     * Actions to carry out before running the Sprout.
+     *
+     * @return void
+     */
+    public function beforeRun()
+    {
+        $this->command->getOutput()->writeln(
+            sprintf("<comment>Running:</comment> %s", $this->description())
+        );
+    }
+
+    /**
+     * Actions to carry out after running the Sprout.
+     *
+     * @return void
+     */
+    public function afterRun()
+    {
+        $this->command->getOutput()->writeln(
+            sprintf("<info>Finished:</info> %s", $this->description())
+        );
+    }
+
+    /**
+     * Sets the container for the Sprout.
+     *
+     * This allows Sproutception to happen via the `call()` method.
+     *
+     * @param Container $container The Laravel service container.
+     *
+     * @return self
+     */
+    public function setContainer(Container $container)
+    {
+        $this->container = $container;
+
+        return $this;
+    }
+
+    /**
+     * Sets the artisan command for the Sprout.
+     *
+     * This allows Sprouts to pass messages back up to the terminal.
+     *
+     * @param Command $command The artisan command instance.
+     *
+     * @return self
+     */
+    public function setCommand(Command $command)
+    {
+        $this->command = $command;
+
+        return $this;
     }
 }
