@@ -1,6 +1,6 @@
 # Sprout
 
-Make your seeds meaningful.
+Make your Laravel seeds meaningful.
 
 ## Usage
 
