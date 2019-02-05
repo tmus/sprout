@@ -1,0 +1,17 @@
+{
+    "name": "tommus/sprout",
+    "description": "Make your seeds meaningful.",
+
+    "autoload": {
+        "psr-4": {
+            "Tommus\\Sprout\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Tommus\\Sprout\\SproutServiceProvider"
+            ]
+        }
+    }
+}

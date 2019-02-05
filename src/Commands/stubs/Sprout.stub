@@ -1,0 +1,18 @@
+<?php
+
+namespace {{namespace}}Sprouts;
+
+use Tommus\Sprout\Sprout;
+
+class {{sprout}} extends Sprout
+{
+    /**
+     * Run the desired factories and set up.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        // factory(...);
+    }
+}
