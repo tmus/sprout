@@ -43,9 +43,9 @@ class Run extends Command
 
         $sprout = $this->laravel->make($sprout);
 
-        $sprout->setContainer($this->laravel)->setCommand($this);
+        $sprout->setContainer($this->laravel)->setCommand($this)();
 
-        $message = $sprout();
+        $this->info(sprintf('%s ran successfully.', $sprout->description()));
     }
 
     /**
