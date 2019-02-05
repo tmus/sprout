@@ -1,7 +1,15 @@
 {
     "name": "tommus/sprout",
-    "description": "Make your seeds meaningful.",
-
+    "description": "Grow your Laravel seeders.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Thomas Smith",
+            "email": "me@tomm.us",
+            "homepage": "https://tomm.us",
+            "role": "Developer"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "Tommus\\Sprout\\": "src/"
