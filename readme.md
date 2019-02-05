@@ -1,6 +1,6 @@
 # Sprout
 
-Make your Laravel seeds meaningful.
+Grow your Laravel seeders.
 
 ## Usage
 
@@ -27,6 +27,14 @@ php artisan sprout:make Example
 
 This will make a new Sprout at `App/Sprouts/Example.php`. In the `run()`
 method, you can add any factories or calls you'd like.
+
+You can call another Sprout by using `$this->call(Sprout::class)` from
+within the called Sprout. This happens recursively.
+
+Optionally, you can add a `beforeRun()` and `afterRun()` method to a
+Sprout to build up and tear down specific config.
+
+You can add a `protected $description = 'Custom Title';` to a Sprout.
 
 4. Add the Sprout to `config/sprout.php`:
 
