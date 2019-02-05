@@ -2,6 +2,12 @@
 
 Grow your Laravel seeders.
 
+Sprout allows you to write more modular, reuseable seeders for specific scenarios
+in your app.
+
+For example, creating a "full event" by creating an event and ten
+bookings. Or, creating an "empty event" by creating just an event.
+
 ## Usage
 
 1. Pull in the package with composer:
